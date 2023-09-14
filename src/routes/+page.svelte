@@ -53,7 +53,7 @@
 		<div
 			class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-8 md:gap-y-24 p-8 mt-8 md:mt-24 container mx-auto"
 		>
-			<div class="inverting-spinner">
+			<div class="inverting-stripe">
 				<Hero class="text-white" />
 			</div>
 
@@ -66,35 +66,49 @@
 </div>
 
 <style lang="scss">
-	@keyframes rotate-keyframes {
-		$start: 35deg;
+	$start-rot: 20deg;
+	$end-rot: 135deg;
+
+	@keyframes stripe-rotate {
 		0% {
-			transform: rotate($start);
+			transform: rotate($start-rot);
 		}
 		100% {
-			transform: rotate(calc(360deg + $start));
+			transform: rotate($end-rot);
 		}
 	}
-	.inverting-spinner {
+	.inverting-stripe {
 		position: relative;
 	}
-	.inverting-spinner::before {
-		animation: rotate-keyframes 20s linear infinite;
-		background-color: white;
-		mix-blend-mode: difference;
+	.inverting-stripe::before {
+		animation: stripe-rotate 1.9s;
+		animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+		transform: rotate($end-rot);
 
-		content: '';
 		position: absolute;
 		z-index: 1000;
 		pointer-events: none;
 
+		content: '';
+		background-color: white;
+		mix-blend-mode: difference;
+
 		top: 50%;
 		left: 50%;
+		height: 400vmax;
+		margin-top: -200vmax;
 
-		height: 1000vmax;
-		margin-top: -500vmax;
-
-		width: 15vmax;
-		margin-left: -7.5vmax;
+		$w: 150px;
+		width: $w;
+		margin-left: calc($w / -2);
+		// width: 15vmax;
+		// margin-left: -7.5vmax;
+	}
+	@screen md {
+		.inverting-stripe::before {
+			$w: 300px;
+			width: $w;
+			margin-left: calc($w / -2);
+		}
 	}
 </style>
